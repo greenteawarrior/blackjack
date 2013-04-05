@@ -3,16 +3,12 @@ import random
 #emilywang
 #softdes spring 2013
 #object oriented programming
-#blackjack
+#blackjack (play from the command line)
 
 class Card(object):
 	"This is a playing card."
 
-	#class attributes, dictionary version
-	# suit_names = {0: 'Clubs', 1: 'Diamonds', 2: 'Hearts', 3: 'Spades'}
-	# rank_names = {1: 'Ace', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: '10', 11: 'Jack',  12:'Queen', 13:'King'}
-
-	#class attributes, list version
+	#using a list for class attributes because list index = rank #
 	suit_names = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
 	rank_names = [None, 'Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
 
@@ -23,11 +19,9 @@ class Card(object):
 	def __str__(self):
 		return '%s of %s' % (Card.rank_names[self.rank], Card.suit_names[self.suit])
 
-	# def cardvalue(self):
-	# 	return 	
-
 class BJDeck(object):
-	"""This BJDeck contains four standard decks' worth of cards. Stands true to the tradition of using multiple decks in Blackjack."""
+	"""This BJDeck contains four standard decks' worth of cards. 
+	Stands true to the tradition of using multiple decks in Blackjack."""
 	def __init__(self):
 		self.cards = []
 		n = 0
@@ -44,7 +38,7 @@ class BJDeck(object):
 			res.append(str(card))
 		return '\n'.join(res)
 
-	def currenttotal(self):
+	def currenttotal(self): #finds the current total of a deck/hand of cards
 		sum_value = 0
 		for card in self.cards:
 			if card.rank > 10:
@@ -52,14 +46,15 @@ class BJDeck(object):
 			sum_value = sum_value + card.rank
 		return sum_value
 
-	def add_card(self, card):
+	def add_card(self, card): 
 		self.cards.append(card)
 
-	def randomcard(self):
+	def randomcard(self): #deal a random card
 		return random.choice(self.cards)
 
 class Hand(BJDeck):
-	"This is a hand of cards. Used by Emily for coding Blackjack with object-oriented programming."
+	"""This is a hand of cards. 
+	Used by Emily for coding Blackjack with object-oriented programming."""
 
 	def __init__(self, label =''):
 		self.cards = []
@@ -69,10 +64,15 @@ class Hand(BJDeck):
 		for i in range(num):
 			self.add_card(deck.randomcard())
 
-	def p_turn (self, deck, pcurrenttotal):
+	def p_turn (self, deck, pcurrenttotal): #player turn
 		currenttotal = pcurrenttotal
 		print ()
-		print ("Now, what will you do- hit or stand? A 'hit' is to take another card in hopes of getting closer but not exceeding 21. A 'stand' is to do nothing in hopes that you'll beat the dealer with your current hand. Choose wisely.")
+		print ("""Now, what will you do- hit or stand? 
+			A 'hit' is to take another card in hopes of 
+			getting closer but not exceeding 21. 
+			A 'stand' is to do nothing in hopes that 
+			you'll beat the dealer with your current hand. 
+			Choose wisely.""")
 		decision = str(input("Type 'hit' or 'stand' into the computer."))
 		
 		if decision == 'hit':
@@ -95,7 +95,7 @@ class Hand(BJDeck):
 			print ('As promised, you still have a hand of ' + (str(currenttotal)) + '.')
 			return currenttotal, decision
 
-	def d_turn (self, deck, dcurrenttotal):
+	def d_turn (self, deck, dcurrenttotal): #dealer turn
 		currenttotal = dcurrenttotal
 		print ()
 		print ("Dealer's turn!")
@@ -103,8 +103,8 @@ class Hand(BJDeck):
 			decision = 'hit'
 			print ('The dealer shall hit.')
 			dealercard = deck.randomcard()
-			#print ('dealercard is - deleteme-')
-			#print (dealercard)
+			print ('dealercard is - deleteme-')
+			print (dealercard)
 			if dealercard.rank > 10:
 				dealercard.rank = 10
 			newtotal = currenttotal + dealercard.rank
@@ -112,11 +112,12 @@ class Hand(BJDeck):
 		if currenttotal >= 17:
 			decision = 'stand'
 			print ('The dealer must stand.')
-			#print (currenttotal)
+			print (currenttotal)
 			return currenttotal, decision
 
-def game_over(playerturn, dealerturn):
-	
+def game_over(playerturn, dealerturn): 
+	"""Checks whether either the player or dealer has won or lost (busted). 
+	game_over will return False if the game isn't over yet."""
 	#unpacking the variables
 	playercurrenttotal = playerturn[0]
 	playerchose = playerturn[1]
