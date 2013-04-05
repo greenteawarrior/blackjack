@@ -38,10 +38,11 @@ class BJDeck(object):
 			res.append(str(card))
 		return '\n'.join(res)
 
-	def currenttotal(self): #finds the current total of a deck/hand of cards
+	def currenttotal(self): # finds the current total of a deck/hand of cards
 		sum_value = 0
 		for card in self.cards:
-			if card.rank > 10:
+			# cards with rank 11, 12, 13 are royals. in blackjack, royals are worth 10, so we have to account for that.
+			if card.rank > 10: 
 				card.rank = 10
 			sum_value = sum_value + card.rank
 		return sum_value
@@ -66,8 +67,7 @@ class Hand(BJDeck):
 
 	def p_turn (self, deck, pcurrenttotal): #player turn
 		currenttotal = pcurrenttotal
-		print ()
-		print ("""Now, what will you do- hit or stand? 
+		print ("\n" + """Now, what will you do- hit or stand? 
 			A 'hit' is to take another card in hopes of 
 			getting closer but not exceeding 21. 
 			A 'stand' is to do nothing in hopes that 
@@ -76,8 +76,7 @@ class Hand(BJDeck):
 		decision = str(input("Type 'hit' or 'stand' into the computer."))
 		
 		if decision == 'hit':
-			print ()
-			print ('Hit!')
+			print ('\n' + 'Hit!')
 			playercard = deck.randomcard()
 			print ('You got a ' + str(playercard) + '.')
 
@@ -89,16 +88,17 @@ class Hand(BJDeck):
 			return newtotal, decision
 
 		if decision == 'stand':
-			print ()
-			print ('Stand!')
+			print ('\n' + 'Stand!')
 			#currenttotal does not change
 			print ('As promised, you still have a hand of ' + (str(currenttotal)) + '.')
 			return currenttotal, decision
 
+		else: #when a typo happens...
+			return False
+
 	def d_turn (self, deck, dcurrenttotal): #dealer turn
 		currenttotal = dcurrenttotal
-		print ()
-		print ("Dealer's turn!")
+		print ("\n"+"Dealer's turn!")
 		if currenttotal <= 16:
 			decision = 'hit'
 			print ('The dealer shall hit.')
@@ -185,21 +185,17 @@ def game_over(playerturn, dealerturn):
 		
 
 def oop_bj():
+	"Let's play blackjack!"
 
 	deck = BJDeck()
-	#print ("here's the deck")
-	#print (deck)
 
-	welcome = """Hi there! Let's play Blackjack! No money bets though! By the way, an Ace is worth 1 in this particular program."""
-	print (welcome)
-	print ()
+	welcome = """Hi there! Let's play Blackjack! By the way, an Ace is worth 1 in this particular program."""
+	print (welcome + '\n')
 
 	startnow = str(input("Press y if you'd like to begin."))
 
 	if startnow == 'y':
-		print ()
-		print ("Yay, let's play! The goal is to have a hand which is higher than the dealer's but does not exceed 21. Now let's see...")
-		print ()
+		print ("\n" + "Yay, let's play! The goal is to have a hand which is higher than the dealer's but does not exceed 21. Now let's see..." + "\n")
 
 		print ("These are your cards (and the sum if you're too lazy to add).")
 
@@ -207,27 +203,28 @@ def oop_bj():
 		playerhand.BJdeal(deck, 2)
 		playercurrenttotal = playerhand.currenttotal()
 		print (playerhand)
-		print ("Current total: " + str(playercurrenttotal))
-
-		print()
+		print ("Current total: " + str(playercurrenttotal) + "\n")
 
 		print ("You're allowed to see one of the dealer's cards.")
 		dealerhand = Hand ('dealer hand')
 		dealerhand.BJdeal(deck, 2)
 		dealercurrenttotal= dealerhand.currenttotal()
-		#print (dealerhand)
+		print (dealerhand)
 		#test print
 		print ("Dealer's card: " + str(dealerhand.randomcard()))
-		#print ("deletemelater Dealer's current total: " + str(dealercurrenttotal))
-		print ()
+		print ("deletemelater Dealer's current total: " + str(dealercurrenttotal))
 
 		playerturn = playerhand.p_turn(deck, playercurrenttotal)
+		while playerturn == False: #user made a typo
+			print ("\n" + "Invalid key press. Try again!")
+			playerturn = playerturn = playerhand.p_turn(deck, playercurrenttotal)
+
 		playercurrenttotal = playerturn[0]
 		dealerturn = dealerhand.d_turn(deck, dealercurrenttotal)
 		dealercurrenttotal = dealerturn[0]
 		checkpoint = game_over(playerturn, dealerturn)
-		# print ("checkpoint is: ")
-		# print (checkpoint)
+		print ("testcode: checkpoint is: ")
+		print (checkpoint)
 
 		while checkpoint == False:
 			playerturn = playerhand.p_turn(deck, playercurrenttotal)
@@ -235,9 +232,8 @@ def oop_bj():
 			dealerturn = dealerhand.d_turn(deck, dealercurrenttotal)
 			dealercurrenttotal = dealerturn[0]
 			checkpoint = game_over(playerturn, dealerturn)
-			# print ("checkpoint is: ")
-			# print (checkpoint)
-
+			print ("testcodecheckpoint is: ")
+			print (checkpoint)
 
 	else: #the person didn't type y to start the game.
 		print ("Invalid key press. Restart the program if you'd like to play!")
