@@ -4,11 +4,14 @@ import random
 #softdes spring 2013
 #object oriented programming
 #blackjack (play from the command line)
+#work in progress:
+	#playing with ace being either 1 or 11
+	#"play again?"
 
 class Card(object):
 	"This is a playing card."
 
-	#using a list for class attributes because list index = rank #
+	#using a list for class attributes because list index = rank #, which is convenient 
 	suit_names = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
 	rank_names = [None, 'Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
 
@@ -21,7 +24,9 @@ class Card(object):
 
 class BJDeck(object):
 	"""This BJDeck contains four standard decks' worth of cards. 
-	Stands true to the tradition of using multiple decks in Blackjack."""
+	Stands true to the tradition of using multiple decks in Blackjack.
+	...However, since the professor told us not to use the pop method/delete cards,
+	this version of blackjack is statistically the same with just one of these decks."""
 	def __init__(self):
 		self.cards = []
 		n = 0
@@ -54,7 +59,7 @@ class BJDeck(object):
 		return random.choice(self.cards)
 
 class Hand(BJDeck):
-	"""This is a hand of cards. 
+	"""This is a hand of cards. 'tis inherited from BJDeck.'
 	Used by Emily for coding Blackjack with object-oriented programming."""
 
 	def __init__(self, label =''):
@@ -118,6 +123,7 @@ class Hand(BJDeck):
 def game_over(playerturn, dealerturn): 
 	"""Checks whether either the player or dealer has won or lost (busted). 
 	game_over will return False if the game isn't over yet."""
+	
 	#unpacking the variables
 	playercurrenttotal = playerturn[0]
 	playerchose = playerturn[1]
@@ -210,7 +216,8 @@ def oop_bj():
 		dealerhand.BJdeal(deck, 2)
 		dealercurrenttotal= dealerhand.currenttotal()
 		print (dealerhand)
-		#test print
+
+		#test print to make sure the game is running correctly
 		print ("Dealer's card: " + str(dealerhand.randomcard()))
 		print ("deletemelater Dealer's current total: " + str(dealercurrenttotal))
 
@@ -234,6 +241,8 @@ def oop_bj():
 			checkpoint = game_over(playerturn, dealerturn)
 			print ("testcodecheckpoint is: ")
 			print (checkpoint)
+
+
 
 	else: #the person didn't type y to start the game.
 		print ("Invalid key press. Restart the program if you'd like to play!")
