@@ -6,7 +6,6 @@ import random
 #blackjack (play from the command line)
 #work in progress:
 	#playing with ace being either 1 or 11
-	#"play again?"
 
 class Card(object):
 	"This is a playing card."
@@ -108,8 +107,8 @@ class Hand(BJDeck):
 			decision = 'hit'
 			print ('The dealer shall hit.')
 			dealercard = deck.randomcard()
-			print ('dealercard is - deleteme-')
-			print (dealercard)
+			# print ('dealercard is - deleteme-')
+			# print (dealercard)
 			if dealercard.rank > 10:
 				dealercard.rank = 10
 			newtotal = currenttotal + dealercard.rank
@@ -136,7 +135,7 @@ def game_over(playerturn, dealerturn):
 		if playercurrenttotal == 21:
 			if dealercurrenttotal == 21:
 				print (gameovermessage)
-				print ("Both you and the dealer win. How fortuitous! (or maybe not). Play again?")
+				print ("Both you and the dealer win. How fortuitous! (or maybe not).")
 				return
 			if dealercurrenttotal < 21:
 				print (gameovermessage)
@@ -144,11 +143,11 @@ def game_over(playerturn, dealerturn):
 				return
 		if playercurrenttotal < 21 and dealercurrenttotal == 21:
 			print (gameovermessage)
-			print ("Sir, you have lost. Dealer got a hand of 21 before you did. Play again?")
+			print ("Sir, you have lost. Dealer got a hand of 21 before you did.")
 			return				
 		if playercurrenttotal > 21:
 			print (gameovermessage)
-			print ("Bust! Sir, you have lost. Play again?")
+			print ("Bust! Sir, you have lost.")
 			return
 		if dealercurrenttotal > 21:
 			print (gameovermessage)
@@ -163,7 +162,7 @@ def game_over(playerturn, dealerturn):
 			return 	
 		if playercurrenttotal == 21 and dealercurrenttotal == 21:
 			print (gameovermessage)
-			print ("Both you and the dealer win. How fortuitous! (or maybe not). Play again?")
+			print ("Both you and the dealer win. How fortuitous! (or maybe not).")
 			return
 		if playercurrenttotal < 21 and dealercurrenttotal > 21:
 			print (gameovermessage)
@@ -171,12 +170,12 @@ def game_over(playerturn, dealerturn):
 			return
 		if playercurrenttotal == dealercurrenttotal:
 			print (gameovermessage)
-			print ("Looks like a tie. Play again?")
+			print ("Looks like a tie.")
 			return
 		if dealerchose == 'stand':
 			if playercurrenttotal < dealercurrenttotal:
 				print (gameovermessage)
-				print ("Alas and alack, the dealer wins. Play again?")
+				print ("Alas and alack, the dealer wins.")
 				return
 			if playercurrenttotal > dealercurrenttotal:
 				print (gameovermessage)
@@ -215,11 +214,11 @@ def oop_bj():
 		dealerhand = Hand ('dealer hand')
 		dealerhand.BJdeal(deck, 2)
 		dealercurrenttotal= dealerhand.currenttotal()
-		print (dealerhand)
-
-		#test print to make sure the game is running correctly
 		print ("Dealer's card: " + str(dealerhand.randomcard()))
-		print ("deletemelater Dealer's current total: " + str(dealercurrenttotal))
+		
+		#test print to make sure the game is running correctly
+		# print (dealerhand)
+		# print ("deletemelater Dealer's current total: " + str(dealercurrenttotal))
 
 		playerturn = playerhand.p_turn(deck, playercurrenttotal)
 		while playerturn == False: #user made a typo
@@ -230,8 +229,8 @@ def oop_bj():
 		dealerturn = dealerhand.d_turn(deck, dealercurrenttotal)
 		dealercurrenttotal = dealerturn[0]
 		checkpoint = game_over(playerturn, dealerturn)
-		print ("testcode: checkpoint is: ")
-		print (checkpoint)
+		# print ("testcode: checkpoint is: ")
+		# print (checkpoint)
 
 		while checkpoint == False:
 			playerturn = playerhand.p_turn(deck, playercurrenttotal)
@@ -239,10 +238,8 @@ def oop_bj():
 			dealerturn = dealerhand.d_turn(deck, dealercurrenttotal)
 			dealercurrenttotal = dealerturn[0]
 			checkpoint = game_over(playerturn, dealerturn)
-			print ("testcodecheckpoint is: ")
-			print (checkpoint)
-
-
+			# print ("testcodecheckpoint is: ")
+			# print (checkpoint)
 
 	else: #the person didn't type y to start the game.
 		print ("Invalid key press. Restart the program if you'd like to play!")
